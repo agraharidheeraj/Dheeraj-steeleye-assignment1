@@ -2,7 +2,7 @@ import React from "react";
 
 const ListHeader = ({ children, currency }) => {
   return (
-    <tr>
+    <tr >
       {React.Children.map(children, (child) => {
         return React.cloneElement(child, { currency });
       })}

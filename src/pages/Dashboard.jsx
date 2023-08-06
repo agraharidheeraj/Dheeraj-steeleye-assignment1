@@ -36,7 +36,7 @@ const Dashboard = () => {
           <Card cardData={selectedOrderDetails} title="Selected Order Details" />
           <Card cardData={selectedOrderTimeStamps} title="Selected Order Timestamps" />
         </div>
-        <List rows={filteredRows} currency={currency} />
+        <List rows={filteredRows} currency={currency} selectedOrderDetails={setSelectedOrderDetails} selectedOrderTimeStamps={setSelectedOrderTimeStamps} />
       </div>
     </div>
   );

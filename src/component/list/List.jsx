@@ -6,23 +6,24 @@ import ListHeaderCell from "./ListHeaderCell";
 import styles from "./List.module.css";
 import timeStampsData from "../../assets/timeStamps.json";
 
-const List = ({ rows, currency }) => {
+const List = ({ rows, currency,selectedOrderDetails,selectedOrderTimeStamps }) => {
   const [conversionRates, setConversionRates] = useState({});
 
   useEffect(() => {
-   
     const fakeConversionRates = {
       USD: 1,
       GBP: 0.75,
       JPY: 110,
       EUR: 0.85,
     };
-    setConversionRates(fakeConversionRates); 
   }, [currency]);
-
+  const showdata=(rows)=>{
+    selectedOrderDetails(rows.executionDetails)
+    selectedOrderTimeStamps(rows.orderTimeStamps)
+  }
   const combinedData = rows.map((row) => ({
     ...row,
-    orderSubmitted: timeStampsData.results.find((item) => item["&id"] === row["&id"]).timestamps.orderSubmitted,
+    orderTimeStamps: timeStampsData.results.find((item) => item["&id"] === row["&id"]).timestamps,
   }));
 
   return (
@@ -37,12 +38,12 @@ const List = ({ rows, currency }) => {
         </ListHeader>
       </thead>
       <tbody>
-        {combinedData.map((row) => (
-          <ListRow key={row["&id"]}>
-            <ListRowCell>{row["&id"]}</ListRowCell>
+        {combinedData.map((row,i) => (
+          <ListRow key={i} showdata={showdata} data={row}>
+            <ListRowCell >{row["&id"]}</ListRowCell>
             <ListRowCell>{row.executionDetails.buySellIndicator}</ListRowCell>
             <ListRowCell>{row.executionDetails.orderStatus}</ListRowCell>
-            <ListRowCell>{row.orderSubmitted}</ListRowCell>
+            <ListRowCell>{row.orderTimeStamps.orderSubmitted}</ListRowCell>
             <ListRowCell>
               {conversionRates[currency]
                 ? (row.bestExecutionData.orderVolume.USD * conversionRates[currency]).toFixed(2)
