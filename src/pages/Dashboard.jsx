@@ -7,21 +7,24 @@ import styles from "./Dashboard.module.css";
 import Card from "../component/card/Card";
 import mockData from "../assets/data.json";
 
-
 const Dashboard = () => {
   const [currency, setCurrency] = useState("USD");
-  const [searchText, setSearchText] = useState(""); 
+  const [searchText, setSearchText] = useState("");
   const [selectedOrderDetails, setSelectedOrderDetails] = useState({});
   const [selectedOrderTimeStamps, setSelectedOrderTimeStamps] = useState({});
 
   const filteredRows = mockData.results.filter((row) =>
     row["&id"].toLowerCase().includes(searchText.toLowerCase())
   );
-                      
+
+  
+  const totalOrders = filteredRows.length;
+
   return (
     <div>
       <div className={styles.header}>
-        <HeaderTitle primaryTitle="Orders" secondaryTitle="6 orders" />
+      
+        <HeaderTitle primaryTitle="Orders" secondaryTitle={`${totalOrders} orders`} />
         <div className={styles.actionBox}>
           <Search value={searchText} onChange={(e) => setSearchText(e.target.value)} />
           <Dropdown
